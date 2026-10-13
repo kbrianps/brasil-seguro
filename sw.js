@@ -1,4 +1,4 @@
-const C="bs-v3";
+const C="bs-v4";
 const A=["./","./style.css","./data.js","./app.js","./icon.svg","./manifest.json"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(A)));self.skipWaiting();});
 self.addEventListener("activate",e=>{e.waitUntil(self.clients.claim());});

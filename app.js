@@ -129,6 +129,7 @@
       "</section>" +
 
       '<section class="view" data-v="locais"><div class="h">Locais seguros perto de você</div><div class="card">' + places + "</div>" +
+      '<p class="note" style="margin:0 0 12px">Locais cadastrados e atualizados pela Defesa Civil do seu município e do seu estado.' + (uf === "RJ" && rk === "calor" ? ' Pontos de resfriamento previstos no Decreto Rio nº 54.740/2024 (art. 5º, IV, c), para o nível 4 de calor.' : "") + "</p>" +
       '<button class="btn btn-sec">📷 Informar um problema no local</button></section>' +
 
       '<section class="view" data-v="guia"><div class="h">Guias para a sua região</div><p class="note" style="margin:0 0 12px">Ordenados pelos eventos mais comuns onde você está.</p>' + docs + "</section>" +
