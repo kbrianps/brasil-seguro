@@ -10,7 +10,7 @@
   var seal = '<svg class="seal" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4l24 9v17c0 15-10 26-24 31C18 56 8 45 8 30V13z" fill="#1351B4"/><path d="M32 12l16 6v12c0 10-6.5 17.5-16 21-9.5-3.5-16-11-16-21V18z" fill="#fff"/><path d="M24 32l6 6 11-12" stroke="#168821" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var banner = '<div class="proto"><b>PROTÓTIPO ACADÊMICO</b> · UNIRIO · simulação com dados fictícios · não é canal oficial do governo</div>';
   var header = function (extra) {
-    return banner + '<header class="hdr"><div class="hdr-in">' + seal + '<h1><a href="' + root + '">Brasil Seguro</a><small>Proteção e Defesa Civil · proposta</small></h1><div class="tools">' +
+    return '<header class="hdr"><div class="hdr-in">' + seal + '<h1><a href="' + root + '">Brasil Seguro</a><small>Proteção e Defesa Civil · proposta</small></h1><div class="tools">' +
       '<button data-a="font" aria-label="Aumentar letra" title="Aumentar letra">A+</button>' +
       '<button data-a="contrast" aria-label="Alto contraste" title="Alto contraste"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>' +
       (extra ? '<button data-a="speak" aria-label="Ouvir" title="Ouvir">🔊</button><button data-a="libras" aria-label="Libras" title="Libras">🤟</button>' : "") +
@@ -69,7 +69,7 @@
   function sheet() {
     return '<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sh-t"><div class="sheet-in">' +
       '<h3 id="sh-t">Bem-vindo ao Brasil Seguro</h3>' +
-      '<div class="govbr"><button class="btn btn-pri" data-p="govbr">Entrar com a conta gov.br</button><p>Opcional. Ajuda a Defesa Civil a saber quem e quais locais precisam de prioridade. Você pode usar o app sem entrar.</p></div>' +
+      '<div class="govbr"><button class="btn btn-pri" data-p="govbr">Entrar com a conta gov.br</button><p>Opcional. Ajuda a Defesa Civil a saber quem e quais locais precisam de prioridade. Você pode usar o app sem entrar. Nesta simulação, nada é coletado.</p></div>' +
       '<p style="margin-top:14px"><b>Como podemos facilitar para você?</b> Você pode mudar depois no ícone 👤.</p>' +
       '<div class="opts">' +
       '<button data-p="idoso"><i>👵</i>Sou pessoa idosa: letra grande e linguagem simples</button>' +
@@ -113,7 +113,7 @@
       '<div class="where"><div>Você está em<b>' + esc(lugar) + " · " + uf + '</b></div><a href="' + root + '">Trocar local</a></div>' +
 
       '<section class="view on" data-v="inicio">' +
-      '<div class="status"><div class="lbl"><span>Status agora · ' + esc(r.alerta.hora) + "</span><span>✓ Alerta oficial assinado</span></div>" +
+      '<div class="status"><div class="lbl"><span>' + esc(r.alerta.hora) + "</span></div>" +
       "<h2>" + r.icone + " " + esc(r.alerta.titulo) + '</h2><span class="lvl">' + esc(r.nivel) + "</span><p>" + esc(r.alerta.texto) + "</p></div>" +
       '<p class="calm">Mantenha a calma. Você tem tempo. Siga os passos abaixo.</p>' +
       '<div class="libras" hidden><span class="vid">🤟</span><div><b>Vídeo em Libras</b><small>Intérprete explicando este alerta (simulação)</small></div></div>' +
@@ -146,7 +146,7 @@
       '<div class="row"><span class="ic">🧑</span><div><b>Irmão</b></div><div class="r"><span class="tag t-ok">Estou bem · 14:01</span></div></div>' +
       '<div class="row"><span class="ic">🙋</span><div><b>Carlos</b><small>vizinho voluntário</small></div><div class="r"><span class="tag t-ok">disponível</span></div></div></div>' +
       '<div class="card"><b>Você avisou: Estou bem ✓</b><div class="note">Sua família e 3 vizinhos foram avisados. Sem internet, o aviso sai por SMS.</div></div>' +
-      "</section></main>" +
+      '</section><p class="disc">Protótipo acadêmico (UNIRIO) · dados simulados</p></main>' +
 
       '<nav class="tabs" aria-label="Menu"><div class="tabs-in"><button class="on" data-t="inicio"><i>🏠</i>Agora</button><button data-t="alertas"><i>🔔</i>Alertas</button><button data-t="locais"><i>📍</i>Locais</button><button data-t="guia"><i>📘</i>Guias</button><button data-t="rede"><i>🆘</i>Ajuda</button></div></nav>' +
       sheet();
