@@ -33,12 +33,12 @@
 
   function dist(a, b, c, d) { var x = (d - b) * Math.cos((a + c) * Math.PI / 360), y = c - a; return Math.sqrt(x * x + y * y) * 111; }
 
+  function slugify(t) { return String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+
   function home() {
     document.title = "Brasil Seguro · protótipo";
-    var opts = Object.keys(U).sort(function (a, b) { return U[a][0].localeCompare(U[b][0]); }).map(function (k) {
-      var subs = L[k] ? Object.keys(L[k]).map(function (s) { return '<option value="' + k + "/" + s + '">   ' + esc(L[k][s][0]) + " (" + k + ")</option>"; }).join("") : "";
-      return '<option value="' + k + '">' + esc(U[k][0]) + "</option>" + subs;
-    }).join("");
+    var M = window.BS_MUNIS || {}, CEPS = window.BS_CEP || [];
+    var ufs = Object.keys(U).sort(function (a, b) { return U[a][0].localeCompare(U[b][0]); }).map(function (k) { return '<option value="' + k + '">' + esc(U[k][0]) + "</option>"; }).join("");
     app.innerHTML = header(false) +
       '<main class="home">' +
       "<h2>Saiba o que fazer agora, onde você está.</h2>" +
@@ -46,10 +46,56 @@
       '<button class="btn btn-pri" id="geo">📍 Usar minha localização</button>' +
       '<div class="msg" id="msg">Sua localização é usada só neste aparelho e não é enviada.</div>' +
       '<div class="or">ou escolha o seu local</div>' +
-      '<select id="sel" aria-label="Escolha o estado ou bairro"><option value="">Selecione o estado ou bairro</option>' + opts + "</select>" +
-      '<div class="sub">Protótipo acadêmico desenvolvido na UNIRIO para o desafio "Inovação na prática: El Niño no Brasil". Telas estáticas com dados simulados, inspiradas nos boletins do Painel El Niño 2026–2027 (Inmet, INPE, ANA, Cemaden, SGB, Sedec). Funciona no celular e no computador e pode ser instalado na tela inicial.</div>' +
+      '<div class="field"><label for="uf">1. Estado</label><select id="uf"><option value="">Selecione o estado</option>' + ufs + "</select></div>" +
+      '<div class="field"><label for="mu">2. Município</label><select id="mu" disabled><option value="">Selecione o município</option></select></div>' +
+      '<div class="field"><label for="ba">3. Bairro</label><select id="ba" disabled><option value="">Selecione o bairro</option></select></div>' +
+      '<button class="btn btn-pri" id="go" disabled>Ver orientações</button>' +
+      '<div class="or">ou digite o seu CEP</div>' +
+      '<div class="cep"><input id="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" aria-label="CEP"><button class="btn btn-pri" id="gocep">Buscar</button></div>' +
+      '<div class="msg" id="cepmsg"></div>' +
+      '<div class="sub">Protótipo acadêmico desenvolvido na UNIRIO para o desafio "Inovação na prática: El Niño no Brasil". Telas estáticas com dados simulados, inspiradas nos boletins do Painel El Niño 2026–2027 (Inmet, INPE, ANA, Cemaden, SGB, Sedec).</div>' +
       "</main>" + sheet();
-    document.getElementById("sel").onchange = function () { if (this.value) location.href = root + this.value + "/"; };
+    var $ = function (id) { return document.getElementById(id); };
+    var target = "";
+    var setTarget = function (t) { target = t; $("go").disabled = !t; };
+    var munis = function (uf) { return M[uf] || [[U[uf][3].split(",").pop().trim(), null]]; };
+    $("uf").onchange = function () {
+      var uf = this.value, mu = $("mu"), ba = $("ba");
+      ba.innerHTML = '<option value="">Selecione o bairro</option>'; ba.disabled = true;
+      if (!uf) { mu.innerHTML = '<option value="">Selecione o município</option>'; mu.disabled = true; setTarget(""); return; }
+      mu.innerHTML = '<option value="">Selecione o município</option>' + munis(uf).map(function (m, i) { return '<option value="' + i + '">' + esc(m[0]) + "</option>"; }).join("");
+      mu.disabled = false; setTarget(uf + "/");
+    };
+    $("mu").onchange = function () {
+      var uf = $("uf").value, ba = $("ba"), m = munis(uf)[this.value];
+      ba.innerHTML = '<option value="">Selecione o bairro</option>'; ba.disabled = true;
+      if (!m) { setTarget(uf + "/"); return; }
+      if (Array.isArray(m[1])) {
+        ba.innerHTML = '<option value="">Selecione o bairro</option>' + m[1].map(function (s) { return '<option value="' + s + '">' + esc(L[uf][s][0]) + "</option>"; }).join("");
+        ba.disabled = false; setTarget(uf + "/");
+      } else if (m[1]) { setTarget(uf + "/" + m[1] + "/"); ba.innerHTML = '<option value="">Município inteiro</option>'; }
+      else { setTarget(uf + "/"); ba.innerHTML = '<option value="">Município inteiro</option>'; }
+    };
+    $("ba").onchange = function () { var uf = $("uf").value; setTarget(this.value ? uf + "/" + this.value + "/" : uf + "/"); };
+    $("go").onclick = function () { if (target) location.href = root + target; };
+    $("cep").oninput = function () { var v = this.value.replace(/\D/g, "").slice(0, 8); this.value = v.length > 5 ? v.slice(0, 5) + "-" + v.slice(5) : v; };
+    var byPrefix = function (n) { var p = parseInt(n.slice(0, 5), 10); for (var i = 0; i < CEPS.length; i++) if (p >= CEPS[i][0] && p <= CEPS[i][1]) return CEPS[i][2]; return null; };
+    var goCep = function () {
+      var n = $("cep").value.replace(/\D/g, ""), msg = $("cepmsg");
+      if (n.length !== 8) { msg.textContent = "Digite os 8 números do CEP."; return; }
+      msg.textContent = "Buscando CEP…";
+      var fallback = function () { var uf = byPrefix(n); if (uf) location.href = root + uf + "/"; else msg.textContent = "CEP não encontrado."; };
+      fetch("https://viacep.com.br/ws/" + n + "/json/").then(function (r) { return r.json(); }).then(function (d) {
+        if (!d || d.erro || !U[d.uf]) { fallback(); return; }
+        var b = slugify(d.bairro || ""), c = slugify(d.localidade || ""), known = L[d.uf] || {};
+        if (b && known[b]) location.href = root + d.uf + "/" + b + "/";
+        else if (c && known[c]) location.href = root + d.uf + "/" + c + "/";
+        else if (b) location.href = root + d.uf + "/" + b + "/";
+        else location.href = root + d.uf + "/";
+      }).catch(fallback);
+    };
+    $("gocep").onclick = goCep;
+    $("cep").onkeydown = function (e) { if (e.key === "Enter") goCep(); };
     document.getElementById("geo").onclick = function () {
       var msg = document.getElementById("msg");
       if (!navigator.geolocation) { msg.textContent = "Este aparelho não informa a localização. Escolha o local abaixo."; return; }
