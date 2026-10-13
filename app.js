@@ -126,8 +126,6 @@
       '<div class="row"><span class="ic">📘</span><div><b>Guia de preparação atualizado</b><small>Defesa Civil · ontem</small></div><div class="r"><span class="tag t-ok">oficial</span></div></div></div>' +
       '<div class="h">Isso é real?</div>' +
       '<div class="card fake"><div class="q">Circulando no WhatsApp:</div><b>' + esc(r.rumor[0]) + '</b><span class="tag t-bad">✕ Não é oficial</span><p>' + esc(r.rumor[1]) + "</p></div>" +
-      '<div class="h">Sem internet</div>' +
-      '<div class="card sms"><div class="from">SMS · Defesa Civil</div><div class="bubble">' + esc(r.alerta.titulo) + ". Abra o Brasil Seguro, que funciona sem internet, ou responda 1 = Estou bem, 2 = Preciso de ajuda. Cód. " + code + '</div><div class="note">O código abre o guia certo já salvo no aparelho. Só alertas com assinatura digital válida abrem o app.</div></div>' +
       "</section>" +
 
       '<section class="view" data-v="locais"><div class="h">Locais seguros perto de você</div><div class="card">' + places + "</div>" +

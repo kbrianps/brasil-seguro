@@ -232,6 +232,7 @@ window.BS_REGIOES = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 window.BS_LOCAIS = {
   RJ: {
     "madureira": ["Madureira", "calor"],
+    "urca": ["Urca", "calor"],
     "complexo-do-alemao": ["Complexo do Alemão", "deslizamento"],
     "rocinha": ["Rocinha", "deslizamento"],
     "jacarepagua": ["Jacarepaguá", "alagamento"],
@@ -271,7 +272,7 @@ window.BS_PONTOS = [
 ];
 
 window.BS_BAIRROS_GEO = {
-  RJ: { "madureira": [-22.873,-43.339], "complexo-do-alemao": [-22.861,-43.271], "rocinha": [-22.988,-43.248], "jacarepagua": [-22.953,-43.363], "copacabana": [-22.971,-43.186], "campo-grande": [-22.902,-43.561], "petropolis": [-22.505,-43.178] },
+  RJ: { "madureira": [-22.873,-43.339], "urca": [-22.949,-43.163], "complexo-do-alemao": [-22.861,-43.271], "rocinha": [-22.988,-43.248], "jacarepagua": [-22.953,-43.363], "copacabana": [-22.971,-43.186], "campo-grande": [-22.902,-43.561], "petropolis": [-22.505,-43.178] },
   SP: { "itaquera": [-23.54,-46.456], "paraisopolis": [-23.613,-46.727], "jardim-pantanal": [-23.495,-46.428] },
   RS: { "canoas": [-29.918,-51.184], "porto-alegre": [-30.034,-51.217] }
 };
