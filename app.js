@@ -68,7 +68,9 @@
 
   function sheet() {
     return '<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sh-t"><div class="sheet-in">' +
-      '<h3 id="sh-t">Como podemos facilitar para você?</h3><p>Escolha uma opção. Você pode mudar depois no ícone 👤.</p>' +
+      '<h3 id="sh-t">Bem-vindo ao Brasil Seguro</h3>' +
+      '<div class="govbr"><button class="btn btn-pri" data-p="govbr">Entrar com a conta gov.br</button><p>Opcional. Ajuda a Defesa Civil a saber quem e quais locais precisam de prioridade. Você pode usar o app sem entrar.</p></div>' +
+      '<p style="margin-top:14px"><b>Como podemos facilitar para você?</b> Você pode mudar depois no ícone 👤.</p>' +
       '<div class="opts">' +
       '<button data-p="idoso"><i>👵</i>Sou pessoa idosa: letra grande e linguagem simples</button>' +
       '<button data-p="visao"><i>👁️</i>Tenho baixa visão: letra grande e alto contraste</button>' +
@@ -189,7 +191,10 @@
       };
     });
     if (sh) sh.querySelectorAll("[data-p]").forEach(function (b) {
-      b.onclick = function () { store.set("bs-perfil", b.dataset.p); apply(b.dataset.p); sh.hidden = true; if (b.dataset.p === "audio") speak(); };
+      b.onclick = function () {
+        if (b.dataset.p === "govbr") { b.textContent = "✓ Conta gov.br conectada (simulação)"; b.disabled = true; store.set("bs-govbr", "1"); return; }
+        store.set("bs-perfil", b.dataset.p); apply(b.dataset.p); sh.hidden = true; if (b.dataset.p === "audio") speak();
+      };
     });
     var p = store.get("bs-perfil");
     if (p) apply(p); else if (sh) sh.hidden = false;
