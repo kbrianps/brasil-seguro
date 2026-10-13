@@ -134,7 +134,11 @@
 
       '<section class="view" data-v="guia"><div class="h">Guias para a sua região</div><p class="note" style="margin:0 0 12px">Ordenados pelos eventos mais comuns onde você está.</p>' + docs + "</section>" +
 
-      '<section class="view" data-v="rede"><div class="h">Sua rede</div>' +
+      '<section class="view" data-v="rede"><div class="h">Ligar agora</div>' +
+      '<div class="calls">' + [["193", "Bombeiros", "Incêndio, resgate, afogamento"], ["199", "Defesa Civil", "Enchente, deslizamento, risco"], ["192", "SAMU", "Emergência de saúde"], ["190", "Polícia Militar", "Segurança"]].map(function (c) {
+        return '<a class="call" href="tel:' + c[0] + '"><span class="num">' + c[0] + '</span><span><b>' + c[1] + "</b><small>" + c[2] + '</small></span><span class="ph">📞</span></a>';
+      }).join("") + "</div>" +
+      '<div class="h">Sua rede de confiança</div>' +
       '<div class="card"><div class="row" style="border:0"><span class="ic">👵</span><div><b>' + esc(r.rede[0]) + "</b><small>" + esc(r.rede[1]) + '</small></div><div class="r"><span class="tag t-warn">' + esc(r.rede[2]) + '</span></div></div><div class="note">' + esc(r.rede[3]) + "</div></div>" +
       '<div class="card"><div class="row"><span class="ic">👩</span><div><b>Mãe</b></div><div class="r"><span class="tag t-ok">Estou bem · 13:58</span></div></div>' +
       '<div class="row"><span class="ic">🧑</span><div><b>Irmão</b></div><div class="r"><span class="tag t-ok">Estou bem · 14:01</span></div></div>' +
@@ -142,7 +146,7 @@
       '<div class="card"><b>Você avisou: Estou bem ✓</b><div class="note">Sua família e 3 vizinhos foram avisados. Sem internet, o aviso sai por SMS.</div></div>' +
       "</section></main>" +
 
-      '<nav class="tabs" aria-label="Menu"><div class="tabs-in"><button class="on" data-t="inicio"><i>🏠</i>Agora</button><button data-t="alertas"><i>🔔</i>Alertas</button><button data-t="locais"><i>📍</i>Locais</button><button data-t="guia"><i>📘</i>Guias</button><button data-t="rede"><i>🤝</i>Rede</button></div></nav>' +
+      '<nav class="tabs" aria-label="Menu"><div class="tabs-in"><button class="on" data-t="inicio"><i>🏠</i>Agora</button><button data-t="alertas"><i>🔔</i>Alertas</button><button data-t="locais"><i>📍</i>Locais</button><button data-t="guia"><i>📘</i>Guias</button><button data-t="rede"><i>🆘</i>Ajuda</button></div></nav>' +
       sheet();
 
     app.innerHTML = html;

@@ -101,3 +101,11 @@ body.hc .hdr h1,body.hc .h,body.hc .home h2,body.hc .sheet h3{color:#fff}
 body.hc .status p,body.hc .home p{color:#fff}
 body.hc .sms .bubble{background:#222;color:#fff}
 @media (max-width:440px){.hdr small{display:none}.hdr-in{gap:8px}.hdr h1{font-size:18px}.hdr .tools button{width:34px;height:34px;font-size:14px}}
+.calls{display:grid;grid-template-columns:1fr;gap:10px}
+.call{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--bad);border-radius:12px;padding:12px;text-decoration:none;color:var(--ink);min-height:72px}
+.call .num{font-size:calc(26px * var(--fs));font-weight:800;color:var(--bad);min-width:52px}
+.call b{display:block;font-size:calc(15px * var(--fs))}
+.call small{display:block;color:var(--muted);font-size:calc(12px * var(--fs));line-height:1.3}
+.call .ph{margin-left:auto;font-size:20px}
+@media (max-width:380px){.calls{grid-template-columns:1fr}}
+body.hc .call{background:#000;color:#fff}
